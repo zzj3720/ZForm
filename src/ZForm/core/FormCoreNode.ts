@@ -1,8 +1,17 @@
-import {FormCoreNodeInterface} from "./Types";
+import {AllFormCoreNodeInterface, FormCoreNodeInterface, FormCoreRootInterface} from "./Types";
+import {FormCoreAbstract} from "./FormCoreAbs";
 
-export class FormCoreNode<T = any> implements FormCoreNodeInterface<T> {
-    constructor(private parent: FormCoreNodeInterface, private path: string | number) {
-
+export class FormCoreNode<T = any> extends FormCoreAbstract<T> implements AllFormCoreNodeInterface<T> {
+    pathArray: (string | number)[];
+    pathString: string;
+    constructor(
+        private parent: AllFormCoreNodeInterface,
+        public path: string | number,
+        public root: FormCoreRootInterface,
+    ) {
+        super();
+        this.pathArray = [...parent.getPath(), path];
+        this.pathString = this.getPath().join('/');
     }
 
     public subscribe(f: (value: T) => void) {
@@ -12,15 +21,6 @@ export class FormCoreNode<T = any> implements FormCoreNodeInterface<T> {
     public getValue() {
         const value = this.parent.getValue();
         return this.safeGet(value);
-    };
-
-    children: Record<string, FormCoreNodeInterface> = {};
-
-    public byPath<P = any>(path: string): FormCoreNodeInterface<P> {
-        if (!this.children[path]) {
-            this.children[path] = new FormCoreNode(this, path);
-        }
-        return this.children[path];
     };
 
     private safeGet(value: any) {
@@ -56,5 +56,20 @@ export class FormCoreNode<T = any> implements FormCoreNodeInterface<T> {
                 return newValue;
             }
         })
+    };
+
+    getParent() {
+        return this.parent;
+    };
+
+    async validateWithAllParent() {
+        const [other, self] = await Promise.all([this.parent.validateWithAllParent(), this.validate()]);
+        return [...other, self];
+    };
+    byPath<P = any>(path: string | number): FormCoreNodeInterface<P> {
+        if (!this.children[path]) {
+            this.children[path] = new FormCoreNode(this, path, this.root);
+        }
+        return this.children[path];
     };
 }

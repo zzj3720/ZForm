@@ -1,11 +1,8 @@
 import * as React from "react";
-import {FormCoreContext, FormCoreProvider, useValue} from "./Context";
+import {FormCoreProvider, useFormCore, useValue} from "./Context";
 
 export const ArrayField = ({children}: React.PropsWithChildren<{}>) => {
-    const formCore = React.useContext(FormCoreContext);
-    if (!formCore) {
-        throw new Error('上下文中不存在 FormCore');
-    }
+    const formCore = useFormCore();
     const value = useValue(formCore);
     if (!Array.isArray(value)) {
         return null;
@@ -23,10 +20,7 @@ export const ArrayField = ({children}: React.PropsWithChildren<{}>) => {
 type DivProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 
 export const ArrayFieldAdd = ({value, ...props}: { value?: any } & DivProps) => {
-    const formCore = React.useContext(FormCoreContext);
-    if (!formCore) {
-        throw new Error('上下文中不存在 FormCore');
-    }
+    const formCore = useFormCore();
     return <div {...props} onClick={(e) => {
         formCore.update(arr => [...(arr || []), value]);
         props.onChange && props.onChange(e);
@@ -37,10 +31,7 @@ export const ArrayFieldAdd = ({value, ...props}: { value?: any } & DivProps) => 
 
 
 export const ArrayFieldDelete = (props: { value?: any } & DivProps) => {
-    const formCore = React.useContext(FormCoreContext);
-    if (!formCore) {
-        throw new Error('上下文中不存在 FormCore');
-    }
+    const formCore = useFormCore();
     return <div {...props} onClick={(e) => {
         formCore.delete();
         props.onChange && props.onChange(e);
