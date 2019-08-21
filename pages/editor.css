@@ -1,0 +1,59 @@
+.titleStyle {
+    font-size: 18px;
+    font-weight: 500;
+    color: #18181A;
+}
+
+.amountStyle {
+    color: #ec5049;
+}
+
+.brandTitle {
+    font-size: 16px;
+    font-weight: 400;
+    color: #18181A;
+    margin-left: 52px;
+    margin-bottom: 12px;
+}
+
+.brandIcon {
+    /*background: url(../../../../../statics/img/delete.svg);*/
+    width: 20px;
+    height: 22px;
+    margin-left: 27px;
+    vertical-align: sub;
+    display: inline-block;
+}
+
+.brandIcon:hover {
+    /*background: url(../../../../../statics/img/delete-hover.svg);*/
+}
+
+.brandForm {
+    border: 1px dashed rgba(217, 217, 217, 1.0);
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding-top: 12px;
+}
+
+.activeBrandForm {
+    border: 1px dashed rgba(63, 103, 238, 0.4);
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding-top: 12px;
+}
+
+.checkStyle {
+    margin-left: 190px;
+    margin-bottom: 40px;
+}
+
+.buttonStyle {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+
+.spaceStyle {
+    margin-right: 16px;
+}
