@@ -1,9 +1,18 @@
 import * as React from "react";
 import 'antd/dist/antd.css';
-import {Container} from "../src/ZForm/react/Container";
-import {FieldWrapper} from "../src/ZForm/react/FieldWrapper";
-import {Field} from "../src/ZForm/react/Field";
-import {ArrayField, ArrayFieldAdd, ArrayFieldDelete} from "../src/ZForm/react/ArrayField";
+import {ArrayField, ArrayFieldAdd, ArrayFieldDelete, Field, FieldWrapper} from "../src/ZForm/react";
+import {ZForm, ZFormItem} from "../src/ZForm/antd";
+import {Input} from "antd";
+const formItemLayout = {
+    labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+    },
+    wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+    },
+};
 
 const Box = ({children}: React.PropsWithChildren<{}>) => {
     return <div style={{marginLeft: 20}}>
@@ -13,47 +22,42 @@ const Box = ({children}: React.PropsWithChildren<{}>) => {
 
 const Dog = () => {
     return <div>
-        <Field field="name">
-            名字:
+        <ZFormItem label="名字" rules={[{required: true, message: '名字必填'}]} field="name">
             <FieldWrapper>
-                <input/>
+                <Input/>
             </FieldWrapper>
-        </Field>
+        </ZFormItem>
         <br/>
-        <Field field="idCard">
-            身份证:
+        <ZFormItem label="身份证" field="idCard">
             <FieldWrapper>
                 <IdCard/>
             </FieldWrapper>
-        </Field>
+        </ZFormItem>
     </div>
 };
 
 const IdCard = () => {
     return <div>
-        <Field field="id">
-            号码:
+        <ZFormItem label="号码" field="id">
             <FieldWrapper>
-                <input/>
+                <Input/>
             </FieldWrapper>
-        </Field>
-        <Field field="address">
-            地址:
+        </ZFormItem>
+        <ZFormItem label="地址" field="address">
             <FieldWrapper>
-                <input/>
+                <Input/>
             </FieldWrapper>
-        </Field>
+        </ZFormItem>
     </div>
 };
 
 const People = () => {
     return <div>
-        <Field field="name">
-            名字:
+        <ZFormItem label="名字" rules={[{required: true, message: '名字必填'}]} field="name">
             <FieldWrapper>
-                <input/>
+                <Input/>
             </FieldWrapper>
-        </Field>
+        </ZFormItem>
         <Field field="dogs">
             <Box>
                 <ArrayField>
@@ -81,10 +85,10 @@ const People = () => {
 
 export default () => {
     const [state, setState] = React.useState({});
-    return <Container initValue={state} onChange={setState}>
+    return <ZForm {...formItemLayout} initValue={state} onChange={setState}>
         <People/>
         <pre>
             {JSON.stringify(state, null, 2)}
         </pre>
-    </Container>
+    </ZForm>
 }
